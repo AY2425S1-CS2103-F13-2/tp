@@ -84,4 +84,15 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
+
+    /**
+     * Adds the given node
+     * @param note
+     */
+    void setNote(String note);
+
+    /**
+     * Returns the note
+     */
+    String getNote();
 }

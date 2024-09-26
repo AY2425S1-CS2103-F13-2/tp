@@ -16,6 +16,7 @@ import seedu.address.model.person.UniquePersonList;
 public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniquePersonList persons;
+    private String note;
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
@@ -92,6 +93,22 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void removePerson(Person key) {
         persons.remove(key);
+    }
+
+    /**
+     * Set the note of the address book
+     * @param note
+     */
+    public void setNote (String note) {
+        this.note = note;
+    }
+
+    /**
+     * Get the note of the address book
+     * @return
+     */
+    public String getNote() {
+        return this.note;
     }
 
     //// util methods
