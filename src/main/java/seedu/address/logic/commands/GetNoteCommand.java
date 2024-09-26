@@ -5,6 +5,9 @@ import static java.util.Objects.requireNonNull;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 
+/**
+ * Gets the note for display
+ */
 public class GetNoteCommand extends Command {
 
     public static final String COMMAND_WORD = "note";

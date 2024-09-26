@@ -78,7 +78,7 @@ public class AddressBookParser {
 
         case HelpCommand.COMMAND_WORD:
             return new HelpCommand();
-        
+
         case SetNoteCommand.COMMAND_WORD:
             if (arguments.isEmpty()) {
                 return new GetNoteCommand();

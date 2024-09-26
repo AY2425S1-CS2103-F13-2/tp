@@ -100,7 +100,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      * Set the note of the address book
      * @param note
      */
-    public void setNote (String note) {
+    public void setNote(String note) {
         this.note = note;
     }
 

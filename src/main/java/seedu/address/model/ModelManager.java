@@ -145,7 +145,7 @@ public class ModelManager implements Model {
                 && filteredPersons.equals(otherModelManager.filteredPersons);
     }
 
-        //=========== Note Manager =============================================================
+    //=========== Note Manager =============================================================
     @Override
     public void setNote(String note) {
         addressBook.setNote(note);

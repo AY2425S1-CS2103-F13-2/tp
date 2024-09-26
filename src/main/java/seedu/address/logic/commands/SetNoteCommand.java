@@ -22,6 +22,9 @@ public class SetNoteCommand extends Command {
 
     private final String toAdd;
 
+    /**
+     * Creates a SetNoteCommand to add the specified {@code note}
+     */
     public SetNoteCommand(String note) {
         requireNonNull(note);
         toAdd = note;
