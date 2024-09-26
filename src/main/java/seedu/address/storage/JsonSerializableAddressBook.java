@@ -23,6 +23,8 @@ class JsonSerializableAddressBook {
 
     private final List<JsonAdaptedPerson> persons = new ArrayList<>();
 
+    private String note = "";
+
     /**
      * Constructs a {@code JsonSerializableAddressBook} with the given persons.
      */
@@ -38,6 +40,7 @@ class JsonSerializableAddressBook {
      */
     public JsonSerializableAddressBook(ReadOnlyAddressBook source) {
         persons.addAll(source.getPersonList().stream().map(JsonAdaptedPerson::new).collect(Collectors.toList()));
+        note = source.getNote();
     }
 
     /**
@@ -54,6 +57,7 @@ class JsonSerializableAddressBook {
             }
             addressBook.addPerson(person);
         }
+        addressBook.setNote(note);
         return addressBook;
     }
 
