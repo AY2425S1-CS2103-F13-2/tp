@@ -90,24 +90,22 @@ public class Person {
             return true;
         }
 
-        // instanceof handles nulls
         if (!(other instanceof Person)) {
             return false;
         }
 
         Person otherPerson = (Person) other;
-        return name.equals(otherPerson.name)
-                && phone.equals(otherPerson.phone)
-                && email.equals(otherPerson.email)
-                && address.equals(otherPerson.address)
-                && tags.equals(otherPerson.tags)
-                && remark.equals(otherPerson.remark);
+        return otherPerson.getName().equals(getName())
+                && otherPerson.getPhone().equals(getPhone())
+                && otherPerson.getEmail().equals(getEmail())
+                && otherPerson.getAddress().equals(getAddress())
+                && otherPerson.getTags().equals(getTags());
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, tags, remark);
+        return Objects.hash(name, phone, email, address, tags);
     }
 
     @Override
