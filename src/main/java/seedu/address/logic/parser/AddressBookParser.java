@@ -80,7 +80,8 @@ public class AddressBookParser {
             return new HelpCommand();
 
         case RemarkCommand.COMMAND_WORD:
-            return new RemarkCommand();
+            // Fallthrough case for now as command functionality is implemented
+            // return new RemarkCommand();
 
         default:
             logger.finer("This user input caused a ParseException: " + userInput);
