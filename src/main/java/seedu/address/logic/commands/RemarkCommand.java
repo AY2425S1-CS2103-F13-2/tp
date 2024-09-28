@@ -9,6 +9,8 @@ public class RemarkCommand extends Command {
 
     public static final String COMMAND_WORD = "remark";
 
+    public static final String MESSAGE_NOT_IMPLEMENTED_YET = "Not implemented yet.";
+
     @Override
     public CommandResult execute(Model model) {
         return new CommandResult("Hello from remark");
