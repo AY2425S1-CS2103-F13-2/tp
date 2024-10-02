@@ -10,7 +10,8 @@
         "jabez-tho": "Jabez Tho",
         "hans-delano": "Hans Delano",
         "kevin-pek": "Kevin Pek",
-        "kok-bo-chang": "Kok Bo Chang"
+        "kok-bo-chang": "Kok Bo Chang",
+        "kah-suan": "Kah Suan"
       },
       "headingKeywords": {}
     },
@@ -156,6 +157,14 @@
       "title": "Jabez Tho's Project Portfolio Page",
       "headings": {
         "project-eventtory-page-under-construction-details-not-updated-from-template": "Project: EventTory - (Page under construction - details not updated from template)"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "team/kahsuann.md",
+      "title": "Kah Suan's Project Portfolio Page",
+      "headings": {
+        "project-eventory": "Project: Eventory"
       },
       "headingKeywords": {}
     },
