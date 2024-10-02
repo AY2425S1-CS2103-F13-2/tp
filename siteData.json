@@ -7,11 +7,9 @@
       "headings": {
         "about-us": "About Us",
         "project-team": "Project team",
-        "john-doe": "John Doe",
-        "jane-doe": "Jane Doe",
+        "jabez-tho": "Jabez Tho",
         "hans-delano": "Hans Delano",
         "kevin-pek": "Kevin Pek",
-        "jean-doe": "Jean Doe",
         "kok-bo-chang": "Kok Bo Chang"
       },
       "headingKeywords": {}
@@ -150,6 +148,14 @@
       "title": "Hans Delano's Project Portfolio Page",
       "headings": {
         "project-eventtory": "Project: EventTory"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "team/jasperabez.md",
+      "title": "Jabez Tho's Project Portfolio Page",
+      "headings": {
+        "project-eventtory-page-under-construction-details-not-updated-from-template": "Project: EventTory - (Page under construction - details not updated from template)"
       },
       "headingKeywords": {}
     },
