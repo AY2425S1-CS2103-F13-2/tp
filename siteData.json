@@ -12,7 +12,7 @@
         "hans-delano": "Hans Delano",
         "kevin-pek": "Kevin Pek",
         "jean-doe": "Jean Doe",
-        "james-doe": "James Doe"
+        "kok-bo-chang": "Kok Bo Chang"
       },
       "headingKeywords": {}
     },
@@ -133,6 +133,15 @@
       "title": "",
       "headings": {
         "addressbook-level-3": "AddressBook Level-3"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "team/c5hives.md",
+      "title": "Bo Chang's Project Portfolio Page",
+      "headings": {
+        "project-eventtory": "Project: EventTory",
+        "project-contributions": "Project Contributions"
       },
       "headingKeywords": {}
     },
