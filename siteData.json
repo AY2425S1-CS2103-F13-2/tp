@@ -9,6 +9,7 @@
         "project-team": "Project team",
         "john-doe": "John Doe",
         "jane-doe": "Jane Doe",
+        "hans-delano": "Hans Delano",
         "kevin-pek": "Kevin Pek",
         "jean-doe": "Jean Doe",
         "james-doe": "James Doe"
@@ -132,6 +133,14 @@
       "title": "",
       "headings": {
         "addressbook-level-3": "AddressBook Level-3"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "team/hanscau.md",
+      "title": "Hans Delano's Project Portfolio Page",
+      "headings": {
+        "project-eventtory": "Project: EventTory"
       },
       "headingKeywords": {}
     },
