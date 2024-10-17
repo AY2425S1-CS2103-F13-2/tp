@@ -3,11 +3,14 @@ package seedu.address.model.vendor;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seedu.address.model.id.UniqueId;
 import seedu.address.model.vendor.exceptions.DuplicateVendorException;
 import seedu.address.model.vendor.exceptions.VendorNotFoundException;
 
@@ -27,6 +30,7 @@ public class UniqueVendorList implements Iterable<Vendor> {
     private final ObservableList<Vendor> internalList = FXCollections.observableArrayList();
     private final ObservableList<Vendor> internalUnmodifiableList =
             FXCollections.unmodifiableObservableList(internalList);
+    private final Map<UniqueId, Vendor> vendorMap = new HashMap<>();
 
     /**
      * Returns true if the list contains an equivalent vendor as the given argument.
@@ -37,14 +41,16 @@ public class UniqueVendorList implements Iterable<Vendor> {
     }
 
     /**
-     * Adds a vendor to the list.
+     * Adds a vendor to the list, generating a new unique {@code UniqueId} for the vendor.
      * The vendor must not already exist in the list.
      */
     public void add(Vendor toAdd) {
         requireNonNull(toAdd);
+        UniqueId vendorId = new UniqueId();
         if (contains(toAdd)) {
             throw new DuplicateVendorException();
         }
+        vendorMap.put(vendorId, toAdd);
         internalList.add(toAdd);
     }
 
@@ -65,6 +71,8 @@ public class UniqueVendorList implements Iterable<Vendor> {
             throw new DuplicateVendorException();
         }
 
+        UniqueId vendorId = getVendorId(target);
+        vendorMap.put(vendorId, editedVendor);
         internalList.set(index, editedVendor);
     }
 
@@ -74,14 +82,45 @@ public class UniqueVendorList implements Iterable<Vendor> {
      */
     public void remove(Vendor toRemove) {
         requireNonNull(toRemove);
+        UniqueId vendorId = getVendorId(toRemove);
         if (!internalList.remove(toRemove)) {
             throw new VendorNotFoundException();
         }
+        vendorMap.remove(vendorId);
     }
 
+    /**
+     * Returns the unique ID of the given {@code vendor}.
+     * Throws a {@code VendorNotFoundException} if the vendor is not found.
+     */
+    public UniqueId getVendorId(Vendor vendor) {
+        requireNonNull(vendor);
+        for (Map.Entry<UniqueId, Vendor> entry : vendorMap.entrySet()) {
+            if (entry.getValue().equals(vendor)) {
+                return entry.getKey(); // Return the associated UniqueId
+            }
+        }
+        throw new VendorNotFoundException(); // Vendor not found
+    }
+
+    /**
+     * Replaces the contents of this list with the vendors from {@code replacement}.
+     * The replacement {@code UniqueVendorList} must not contain duplicate vendors.
+     */
     public void setVendors(UniqueVendorList replacement) {
         requireNonNull(replacement);
-        internalList.setAll(replacement.internalList);
+
+        List<Vendor> replacementVendors = replacement.internalList;
+        if (!vendorsAreUnique(replacementVendors)) {
+            throw new DuplicateVendorException();
+        }
+
+        vendorMap.clear();
+        internalList.clear();
+
+        for (Vendor vendor : replacementVendors) {
+            add(vendor);
+        }
     }
 
     /**
@@ -94,7 +133,12 @@ public class UniqueVendorList implements Iterable<Vendor> {
             throw new DuplicateVendorException();
         }
 
-        internalList.setAll(vendors);
+        vendorMap.clear();
+        internalList.clear();
+
+        for (Vendor vendor : vendors) {
+            add(vendor);
+        }
     }
 
     /**

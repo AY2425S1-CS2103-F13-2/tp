@@ -9,5 +9,6 @@
     "phone": "94351253",
     "description": "4th street"
   } ],
-  "events" : [ ]
+  "events" : [ ],
+  "associations": [ ]
 }

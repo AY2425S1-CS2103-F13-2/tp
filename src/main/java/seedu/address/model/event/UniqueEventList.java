@@ -3,35 +3,32 @@ package seedu.address.model.event;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.event.exceptions.DuplicateEventException;
 import seedu.address.model.event.exceptions.EventNotFoundException;
+import seedu.address.model.id.UniqueId;
 
 /**
  * A list of events that enforces uniqueness between its elements and does not allow nulls.
- * <p>
- * An event is considered unique by comparing using {@code Event#isSameEvent(Event)}. As such, adding and updating of
- * events uses Event#isSameEvent(Event) for equality to ensure that the event being added or updated is
- * unique in terms of identity in the UniqueEventList.
- * </p>
- * <p>
- * However, the removal of a event uses Event#equals(Object) to
- * ensure that the event with exactly the same fields will be removed.
- * </p>
- * <p>
+ * An event is considered unique by comparing using {@code Event#isSameEvent(Event)}.
+ * As such, adding and updating of events uses Event#isSameEvent(Event) for equality to
+ * ensure that the event being added or updated is unique in terms of identity in the UniqueEventList.
  * Supports a minimal set of list operations.
- * </p>
  *
  * @see Event#isSameEvent(Event)
  */
 public class UniqueEventList implements Iterable<Event> {
+
     private final ObservableList<Event> internalList = FXCollections.observableArrayList();
     private final ObservableList<Event> internalUnmodifiableList =
             FXCollections.unmodifiableObservableList(internalList);
+    private final Map<UniqueId, Event> eventMap = new HashMap<>();
 
     /**
      * Returns true if the list contains an equivalent event as the given argument.
@@ -42,18 +39,32 @@ public class UniqueEventList implements Iterable<Event> {
     }
 
     /**
-     * Adds an Event to the list.
+     * Adds an event to the list, generating a new unique {@code UniqueId} for the event.
      * The event must not already exist in the list.
      */
     public void add(Event toAdd) {
         requireNonNull(toAdd);
+        UniqueId eventId = new UniqueId(); // Generate a new UniqueId (UUID)
         if (contains(toAdd)) {
             throw new DuplicateEventException();
         }
-        internalList.add(toAdd);
+        eventMap.put(eventId, toAdd); // Store the event in the map with its unique ID
+        internalList.add(toAdd); // Also add the event to the internal list
     }
 
-    // TODO add method to handle editing Events, not needed for MVP
+    /**
+     * Returns the unique ID of the given {@code event}.
+     * Throws an {@code EventNotFoundException} if the event is not found.
+     */
+    public UniqueId getEventId(Event event) {
+        requireNonNull(event);
+        for (Map.Entry<UniqueId, Event> entry : eventMap.entrySet()) {
+            if (entry.getValue().equals(event)) {
+                return entry.getKey(); // Return the associated UniqueId
+            }
+        }
+        throw new EventNotFoundException(); // Event not found
+    }
 
     /**
      * Removes the equivalent event from the list.
@@ -61,19 +72,39 @@ public class UniqueEventList implements Iterable<Event> {
      */
     public void remove(Event toRemove) {
         requireNonNull(toRemove);
+
+        UniqueId eventId = getEventId(toRemove);
         if (!internalList.remove(toRemove)) {
             throw new EventNotFoundException();
         }
-    }
 
-    public void setEvents(UniqueEventList replacement) {
-        requireNonNull(replacement);
-        internalList.setAll(replacement.internalList);
+        // Remove from both the internal list and the map
+        eventMap.remove(eventId);
     }
 
     /**
-     * Replaces the contents of this list with {@code vendors}.
-     * {@code vendors} must not contain duplicate vendors.
+     * Replaces the contents of this list with the vendors from {@code replacement}.
+     * The replacement {@code UniqueVendorList} must not contain duplicate vendors.
+     */
+    public void setEvents(UniqueEventList replacement) {
+        requireNonNull(replacement);
+
+        List<Event> replacementEvents = replacement.internalList;
+        if (!eventsAreUnique(replacementEvents)) {
+            throw new DuplicateEventException();
+        }
+
+        eventMap.clear();
+        internalList.clear();
+
+        for (Event event : replacementEvents) {
+            add(event);
+        }
+    }
+
+    /**
+     * Replaces the contents of this list with {@code events}.
+     * {@code events} must not contain duplicate events.
      */
     public void setEvents(List<Event> events) {
         requireAllNonNull(events);
@@ -81,7 +112,12 @@ public class UniqueEventList implements Iterable<Event> {
             throw new DuplicateEventException();
         }
 
-        internalList.setAll(events);
+        eventMap.clear(); // Clear the map
+        internalList.clear(); // Clear the internal list
+
+        for (Event event : events) {
+            add(event); // Use the add method to assign new UniqueIds
+        }
     }
 
     /**
@@ -102,7 +138,6 @@ public class UniqueEventList implements Iterable<Event> {
             return true;
         }
 
-        // instanceof handles nulls
         if (!(other instanceof UniqueEventList)) {
             return false;
         }

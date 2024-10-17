@@ -3,5 +3,6 @@
   "events": [ {
     "name": "Birthday Party",
     "date": "10 Oct 2024"
-  } ]
+  } ],
+  "associations": [ ]
 }

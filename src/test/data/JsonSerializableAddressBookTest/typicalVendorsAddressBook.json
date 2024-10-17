@@ -36,5 +36,6 @@
     "description" : "4th street",
     "tags" : [ ]
   } ],
-  "events" : [ ]
+  "events" : [ ],
+  "associations": [ ]
 }

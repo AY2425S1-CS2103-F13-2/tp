@@ -3,7 +3,6 @@ package seedu.address.model;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -12,9 +11,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
 import javafx.util.Pair;
+
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.association.Association;
+import seedu.address.model.association.UniqueAssociationList;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.UniqueEventList;
+import seedu.address.model.id.UniqueId;
 import seedu.address.model.vendor.UniqueVendorList;
 import seedu.address.model.vendor.Vendor;
 
@@ -26,8 +29,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniqueVendorList vendors;
     private final UniqueEventList events;
-    private final ObservableSet<Pair<Vendor, Event>> associations;
-    // private final ObservableSet<Pair<Vendor, Event>> associations;
+    private final UniqueAssociationList associations;
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
@@ -38,7 +40,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     {
         vendors = new UniqueVendorList();
-        associations = FXCollections.observableSet(new HashSet<>());
+        associations = new UniqueAssociationList();
         events = new UniqueEventList();
     }
 
@@ -121,22 +123,34 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     /**
      * Returns true if the given {@code vendor} is already assigned to the given {@code event}.
-     * {@code vendor} and {@code event} must exist in the address book.
+     * {@code vendor} and {@code event} must exist in the respective lists.
      */
     public boolean isVendorAssignedToEvent(Vendor vendor, Event event) {
         requireAllNonNull(vendor, event);
-        Pair<Vendor, Event> pair = new Pair<>(vendor, event);
-        return associations.contains(pair);
+
+        // Get the UniqueIds for vendor and event
+        UniqueId vendorId = vendors.getVendorId(vendor);
+        UniqueId eventId = events.getEventId(event);
+
+        // Check for the association
+        Association association = new Association(vendorId, eventId);
+        return associations.contains(association);
     }
 
     /**
      * Assigns the given {@code vendor} in the list to {@code event}.
-     * {@code vendor} and {@code event} must exist in the address book.
+     * {@code vendor} and {@code event} must exist in their respective lists.
      */
     public void assignVendorToEvent(Vendor vendor, Event event) {
         requireAllNonNull(vendor, event);
-        Pair<Vendor, Event> pair = new Pair<>(vendor, event);
-        associations.add(pair);
+
+        // Get the UniqueIds for vendor and event
+        UniqueId vendorId = vendors.getVendorId(vendor);
+        UniqueId eventId = events.getEventId(event);
+
+        // Create the association and add to associations
+        Association association = new Association(vendorId, eventId);
+        associations.add(association);
     }
 
     /**
@@ -224,8 +238,26 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     @Override
-    public ObservableSet<Pair<Vendor, Event>> getAssociations() {
-        return associations;
+    public ObservableList<Association> getAssociationList() {
+        return associations.asUnmodifiableObservableList();
+    }
+
+    public Vendor getVendorById(UniqueId vendorId) {
+        for (Vendor vendor : vendors.asUnmodifiableObservableList()) {
+            if (vendors.getVendorId(vendor).equals(vendorId)) {
+                return vendor;
+            }
+        }
+        return null;
+    }
+
+    public Event getEventById(UniqueId eventId) {
+        for (Event event : events.asUnmodifiableObservableList()) {
+            if (events.getEventId(event).equals(eventId)) {
+                return event;
+            }
+        }
+        return null;
     }
 
     @Override

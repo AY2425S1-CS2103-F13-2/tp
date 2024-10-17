@@ -19,8 +19,7 @@ import org.junit.jupiter.api.Test;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableSet;
-import javafx.util.Pair;
+import seedu.address.model.association.Association;
 import seedu.address.model.event.Date;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.Name;
@@ -212,8 +211,8 @@ public class AddressBookTest {
         }
 
         @Override
-        public ObservableSet<Pair<Vendor, Event>> getAssociations() {
-            return null;
+        public ObservableList<Association> getAssociationList() {
+            throw new AssertionError("should not be called");
         }
     }
 
