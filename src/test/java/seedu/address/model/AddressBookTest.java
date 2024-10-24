@@ -22,8 +22,7 @@ import org.junit.jupiter.api.Test;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableSet;
-import javafx.util.Pair;
+import seedu.address.model.association.Association;
 import seedu.address.model.commons.exceptions.AssociationDeleteException;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.exceptions.DuplicateEventException;
@@ -35,6 +34,8 @@ import seedu.address.testutil.VendorBuilder;
 public class AddressBookTest {
 
     private final AddressBook addressBook = new AddressBook();
+    private final Event testEvent = new Event(new Name("Test Event"), new Date("2024-10-11"));
+    private final Event anotherEvent = new Event(new Name("Another Event"), new Date("2024-10-11"));
 
     @Test
     public void constructor() {
@@ -146,7 +147,8 @@ public class AddressBookTest {
     public void toStringMethod() {
         String expected = AddressBook.class.getCanonicalName()
                 + "{vendors=" + addressBook.getVendorList() + ", "
-                + "events=" + addressBook.getEventList()
+                + "events=" + addressBook.getEventList() + ", "
+                + "associations=" + addressBook.getAssociationList()
                 + "}";
         assertEquals(expected, addressBook.toString());
     }
@@ -200,6 +202,9 @@ public class AddressBookTest {
         ObservableList<Vendor> associatedVendors = addressBook.getAssociatedVendors(WEDDING);
         ObservableList<Vendor> expectedVendors = FXCollections.observableArrayList(ALICE, BOB);
 
+        associatedVendors.sort((v1, v2) -> v1.getName().fullName.compareTo(v2.getName().fullName));
+        expectedVendors.sort((v1, v2) -> v1.getName().fullName.compareTo(v2.getName().fullName));
+
         assertEquals(expectedVendors, associatedVendors);
     }
 
@@ -219,6 +224,9 @@ public class AddressBookTest {
 
         ObservableList<Event> associatedEvents = addressBook.getAssociatedEvents(ALICE);
         ObservableList<Event> expectedEvents = FXCollections.observableArrayList(WEDDING, BIRTHDAY);
+
+        associatedEvents.sort((e1, e2) -> e1.getName().fullName.compareTo(e2.getName().fullName));
+        expectedEvents.sort((e1, e2) -> e1.getName().fullName.compareTo(e2.getName().fullName));
 
         assertEquals(expectedEvents, associatedEvents);
     }
@@ -246,8 +254,8 @@ public class AddressBookTest {
         }
 
         @Override
-        public ObservableSet<Pair<Vendor, Event>> getAssociations() {
-            return null;
+        public ObservableList<Association> getAssociationList() {
+            throw new AssertionError("should not be called");
         }
     }
 

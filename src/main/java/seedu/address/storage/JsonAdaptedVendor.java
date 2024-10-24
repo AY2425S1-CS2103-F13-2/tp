@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.commons.name.Name;
 import seedu.address.model.commons.tag.Tag;
+import seedu.address.model.id.UniqueId;
 import seedu.address.model.vendor.Description;
 import seedu.address.model.vendor.Phone;
 import seedu.address.model.vendor.Vendor;
@@ -23,6 +24,7 @@ class JsonAdaptedVendor {
 
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Vendor's %s field is missing!";
 
+    private final String id;
     private final String name;
     private final String phone;
     private final String description;
@@ -32,9 +34,10 @@ class JsonAdaptedVendor {
      * Constructs a {@code JsonAdaptedVendor} with the given vendor details.
      */
     @JsonCreator
-    public JsonAdaptedVendor(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
-            @JsonProperty("description") String description,
+    public JsonAdaptedVendor(@JsonProperty("id") String id, @JsonProperty("name") String name,
+            @JsonProperty("phone") String phone, @JsonProperty("description") String description,
             @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+        this.id = id;
         this.name = name;
         this.phone = phone;
         this.description = description;
@@ -47,6 +50,7 @@ class JsonAdaptedVendor {
      * Converts a given {@code Vendor} into this class for Jackson use.
      */
     public JsonAdaptedVendor(Vendor source) {
+        id = source.getId().toString();
         name = source.getName().fullName;
         phone = source.getPhone().value;
         description = source.getDescription().value;
@@ -67,6 +71,13 @@ class JsonAdaptedVendor {
         for (JsonAdaptedTag tag : tags) {
             vendorTags.add(tag.toModelType());
         }
+
+        if (id == null) {
+            throw new IllegalValueException(
+                    String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    UniqueId.class.getSimpleName()));
+        }
+        final UniqueId modelId = new UniqueId(id);
 
         if (name == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
@@ -94,7 +105,7 @@ class JsonAdaptedVendor {
         final Description modelDescription = new Description(description);
 
         final Set<Tag> modelTags = new HashSet<>(vendorTags);
-        return new Vendor(modelName, modelPhone, modelDescription, modelTags);
+        return new Vendor(modelId, modelName, modelPhone, modelDescription, modelTags);
     }
 
 }

@@ -22,6 +22,9 @@ import seedu.address.testutil.EventBuilder;
 
 public class UniqueEventListTest {
     private final UniqueEventList uniqueEventList = new UniqueEventList();
+    private final Event testEvent = new Event(new Name("Test Event"), new Date("2024-10-11"));
+    private final Event differentEvent = new Event(new Name("Different"), new Date("2020-06-01"));
+    private final Event similarTestEvent = new Event(new Name("Test Event"), new Date("2023-05-20"));
 
     @Test
     public void contains_nullEvent_throwsNullPointerException() {

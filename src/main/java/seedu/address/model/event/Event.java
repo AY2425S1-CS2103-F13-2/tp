@@ -10,6 +10,7 @@ import java.util.Set;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.commons.name.Name;
 import seedu.address.model.commons.tag.Tag;
+import seedu.address.model.id.UniqueId;
 
 /**
  * Represents an Event in EventTory.
@@ -18,10 +19,11 @@ import seedu.address.model.commons.tag.Tag;
 public class Event {
     private final Name name;
     private final Date date;
+    private final UniqueId id;
     private final Set<Tag> tags = new HashSet<>();
 
     /**
-     * Constructor for an Event.
+     * Constructor for an Event with an automatically generated UniqueId.
      *
      * @param name The name of the event.
      * @param date The date of the event.
@@ -29,9 +31,28 @@ public class Event {
      */
     public Event(Name name, Date date, Set<Tag> tags) {
         requireAllNonNull(name, date, tags);
+        this.id = new UniqueId();
         this.name = name;
         this.date = date;
         this.tags.addAll(tags);
+    }
+
+    /**
+     * Constructor for an Event with a specified UniqueId.
+     *
+     * @param id The unique identifier for the event.
+     * @param name The name of the event.
+     * @param date The date of the event.
+     */
+    public Event(UniqueId id, Name name, Date date) {
+        requireAllNonNull(id, name, date);
+        this.id = id;
+        this.name = name;
+        this.date = date;
+    }
+
+    public UniqueId getId() {
+        return id;
     }
 
     public Name getName() {
@@ -88,6 +109,7 @@ public class Event {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
+                .add("id", id)
                 .add("name", name)
                 .add("date", date)
                 .add("tags", tags)

@@ -13,6 +13,7 @@ import seedu.address.model.commons.name.Name;
 import seedu.address.model.commons.tag.Tag;
 import seedu.address.model.event.Date;
 import seedu.address.model.event.Event;
+import seedu.address.model.id.UniqueId;
 
 /**
  * Jackson-friendly version of {@link Event}.
@@ -20,6 +21,7 @@ import seedu.address.model.event.Event;
 public class JsonAdaptedEvent {
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Event's %s field is missing!";
 
+    private final String id;
     private final String name;
     private final String date;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
@@ -28,8 +30,9 @@ public class JsonAdaptedEvent {
      * Constructs a {@code JsonAdaptedEvent} with the given event details.
      */
     @JsonCreator
-    public JsonAdaptedEvent(@JsonProperty("name") String name, @JsonProperty("date") String date,
-                            @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+    public JsonAdaptedEvent(@JsonProperty("id") String id, @JsonProperty("name") String name,
+            @JsonProperty("date") String date, @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+        this.id = id;
         this.name = name;
         this.date = date;
         if (tags != null) {
@@ -41,6 +44,7 @@ public class JsonAdaptedEvent {
      * Converts a given {@code Event} into this class for Jackson use.
      */
     public JsonAdaptedEvent(Event source) {
+        id = source.getId().toString();
         name = source.getName().fullName;
         date = source.getDate().toString();
         tags.addAll(source.getTags().stream()
@@ -56,6 +60,12 @@ public class JsonAdaptedEvent {
      *                               the adapted vendor.
      */
     public Event toModelType() throws IllegalValueException {
+        if (id == null) {
+            throw new IllegalValueException(
+                    String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    UniqueId.class.getSimpleName()));
+        }
+        final UniqueId modelId = new UniqueId(id);
         if (name == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
         }
@@ -78,6 +88,6 @@ public class JsonAdaptedEvent {
         }
         final Set<Tag> modelTags = new HashSet<>(eventTags);
 
-        return new Event(modelName, modeldate, modelTags);
+        return new Event(modelId, modelName, modeldate, modelTags);
     }
 }

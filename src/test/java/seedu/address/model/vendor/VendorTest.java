@@ -87,8 +87,9 @@ public class VendorTest {
 
     @Test
     public void toStringMethod() {
-        String expected = Vendor.class.getCanonicalName() + "{name=" + ALICE.getName() + ", phone=" + ALICE.getPhone()
-                + ", description=" + ALICE.getDescription() + ", tags=" + ALICE.getTags() + "}";
+        String expected = Vendor.class.getCanonicalName() + "{id=" + ALICE.getId() + ", name=" + ALICE.getName()
+                + ", phone=" + ALICE.getPhone() + ", description=" + ALICE.getDescription()
+                + ", tags=" + ALICE.getTags() + "}";
 
         assertEquals(expected, ALICE.toString());
     }

@@ -19,12 +19,16 @@ import org.junit.jupiter.api.Test;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.collections.SetChangeListener;
-import javafx.util.Pair;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.association.Association;
+import seedu.address.model.commons.name.Name;
+import seedu.address.model.event.Date;
 import seedu.address.model.event.Event;
+import seedu.address.model.event.UniqueEventList;
 import seedu.address.model.vendor.NameContainsKeywordsPredicate;
+import seedu.address.model.vendor.UniqueVendorList;
 import seedu.address.model.vendor.Vendor;
 import seedu.address.testutil.AddressBookBuilder;
 import seedu.address.testutil.EventBuilder;
@@ -196,6 +200,9 @@ public class ModelManagerTest {
         ObservableList<Vendor> associatedVendors = modelManager.getAssociatedVendors(WEDDING);
         ObservableList<Vendor> expectedVendors = FXCollections.observableArrayList(BENSON, ALICE);
 
+        associatedVendors.sort((v1, v2) -> v1.getName().fullName.compareTo(v2.getName().fullName));
+        expectedVendors.sort((v1, v2) -> v1.getName().fullName.compareTo(v2.getName().fullName));
+
         assertEquals(expectedVendors, associatedVendors);
     }
 
@@ -216,18 +223,49 @@ public class ModelManagerTest {
         ObservableList<Event> associatedEvents = modelManager.getAssociatedEvents(ALICE);
         ObservableList<Event> expectedEvents = FXCollections.observableArrayList(WEDDING, BIRTHDAY);
 
+        associatedEvents.sort((e1, e2) -> e1.getName().fullName.compareTo(e2.getName().fullName));
+        expectedEvents.sort((e1, e2) -> e1.getName().fullName.compareTo(e2.getName().fullName));
+
         assertEquals(expectedEvents, associatedEvents);
     }
 
     @Test
     public void getAssociation_newAssociation_updateSuccessful() {
-        ObjectProperty<Pair<Vendor, Event>> observedState = new SimpleObjectProperty<>();
-        modelManager.getAssociations().addListener((SetChangeListener.Change<? extends Pair<Vendor, Event>> change) -> {
-            observedState.set(change.getElementAdded());
+        ObjectProperty<Association> observedState = new SimpleObjectProperty<>();
+        modelManager.getAssociationList().addListener((ListChangeListener<? super Association>) change -> {
+            if (change.next() && change.wasAdded()) {
+                observedState.set((Association) change.getAddedSubList().get(0));
+            }
         });
 
         modelManager.assignVendorToEvent(TypicalVendors.AMY, TypicalEvents.BIRTHDAY);
-        assertEquals(observedState.get(), new Pair<>(TypicalVendors.AMY, TypicalEvents.BIRTHDAY));
+
+        UniqueVendorList uniqueVendorList = new UniqueVendorList();
+        uniqueVendorList.add(TypicalVendors.AMY);
+
+        UniqueEventList uniqueEventList = new UniqueEventList();
+        uniqueEventList.add(TypicalEvents.BIRTHDAY);
+
+        Vendor uniqueVendor = null;
+        for (Vendor vendor : uniqueVendorList) {
+            if (vendor.equals(TypicalVendors.AMY)) {
+                uniqueVendor = vendor;
+                break;
+            }
+        }
+
+        Event uniqueEvent = null;
+        for (Event event : uniqueEventList) {
+            if (event.equals(TypicalEvents.BIRTHDAY)) {
+                uniqueEvent = event;
+                break;
+            }
+        }
+
+        Association expectedAssociation = new Association(
+                uniqueVendor.getId(),
+                uniqueEvent.getId());
+        assertEquals(observedState.get(), expectedAssociation);
     }
 
     @Test

@@ -13,10 +13,13 @@ import static seedu.address.testutil.TypicalEvents.WEDDING;
 import java.util.HashSet;
 import java.util.Set;
 
+import java.util.UUID;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.address.model.commons.name.Name;
 import seedu.address.model.commons.tag.Tag;
+import seedu.address.model.id.UniqueId;
 import seedu.address.testutil.EventBuilder;
 
 public class EventTest {
@@ -74,10 +77,15 @@ public class EventTest {
 
     @Test
     public void equals_differentObjectsSameValues_returnsTrue() {
-        Event event1 = new Event(name, date, tags);
-        Event event2 = new Event(name, date, tags);
+        Name name = new Name("Workshop");
+        Date date = new Date("2024-10-10");
 
-        // Validate that two different Event objects with the same values are equal
+        // Generate a valid UUID
+        UniqueId id = new UniqueId(UUID.randomUUID().toString());
+        Event event1 = new Event(id, name, date, tags);
+        Event event2 = new Event(id, name, date, tags);
+
+        // Validate that two different Event objects with the same values (including UniqueId) are equal
         assertTrue(event1.equals(event2));
     }
 
@@ -106,8 +114,9 @@ public class EventTest {
         Name name = new Name("Workshop");
         Date date = new Date("2024-10-10");
 
-        Event event1 = new Event(name, date, tags);
-        Event event2 = new Event(name, date, tags);
+        UniqueId id = new UniqueId(UUID.randomUUID().toString());
+        Event event1 = new Event(id, name, date, tags);
+        Event event2 = new Event(id, name, date, tags);
 
         // Check that if two objects are equal, their hashCodes are also equal
         assertTrue(event1.equals(event2));
@@ -118,10 +127,11 @@ public class EventTest {
     public void toString_checkFormat() {
         Name name = new Name("Conference");
         Date date = new Date("2024-10-10");
+        UniqueId id = new UniqueId(UUID.randomUUID().toString());
+        Event event = new Event(id, name, date, tags);
 
-        Event event = new Event(name, date, tags);
-
-        String expected = Event.class.getCanonicalName() + "{name=Conference, date=2024-10-10, tags=[]}";
+        String expected = Event.class.getCanonicalName() + "{id=" + id.toString()
+                + ", name=Conference, date=2024-10-10, tags=[]}";
         assertEquals(expected, event.toString());
     }
 }

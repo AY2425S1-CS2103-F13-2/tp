@@ -5,9 +5,8 @@ import java.util.logging.Logger;
 
 import javafx.beans.value.ObservableObjectValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableSet;
-import javafx.collections.SetChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
@@ -15,17 +14,19 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
-import javafx.util.Pair;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.logic.Logic;
+import seedu.address.model.association.Association;
 import seedu.address.model.event.Event;
 import seedu.address.model.vendor.Vendor;
 
 /**
- * Panel containing the list of vendors.
+ * Panel containing the vendor details and their assigned events.
  */
 public class VendorDetailsPanel extends UiPart<Region> {
     private static final String FXML = "VendorDetailsPanel.fxml";
     private Vendor vendor;
+    private final Logic logic;
     private final Logger logger = LogsCenter.getLogger(VendorDetailsPanel.class);
 
     @FXML
@@ -46,22 +47,27 @@ public class VendorDetailsPanel extends UiPart<Region> {
     private ObservableList<Event> assignedEvents;
 
     /**
-     * Creates a {@code VendorListPanel} with the given {@code ObservableList}.
+     * Creates a {@code VendorDetailsPanel} with the given {@code ObservableObjectValue<Vendor>} and {@code Logic}.
      */
-    public VendorDetailsPanel(ObservableObjectValue<Vendor> vendor, ObservableSet<Pair<Vendor, Event>> associations) {
+    public VendorDetailsPanel(Logic logic) {
         super(FXML);
-
+        this.logic = logic;
         assignedEvents = FXCollections.observableArrayList();
 
-        vendor.addListener((observable, oldValue, newValue) -> {
-            showVendorDetails();
-            setVendor(newValue);
+        ObservableObjectValue<Vendor> observableVendor = logic.getViewedVendor();
+        setVendor(observableVendor.get());
+        showVendorDetails();
+        updateAssignedEvents();
 
-            updateAssignedEvents(associations);
+        observableVendor.addListener((observable, oldValue, newValue) -> {
+            setVendor(newValue);
+            showVendorDetails();
+            updateAssignedEvents();
         });
 
-        associations.addListener((SetChangeListener.Change<? extends Pair<Vendor, Event>> change) -> {
-            updateAssignedEvents(associations);
+        ObservableList<Association> associations = logic.getAssociationList();
+        associations.addListener((ListChangeListener<? super Association>) change -> {
+            updateAssignedEvents();
         });
 
         EventListPanel eventListPanel = new EventListPanel(assignedEvents, "Assigned Events");
@@ -70,22 +76,37 @@ public class VendorDetailsPanel extends UiPart<Region> {
 
     private void setVendor(Vendor vendor) {
         this.vendor = vendor;
-        name.setText(vendor.getName().fullName);
-        phone.setText(vendor.getPhone().value);
-        description.setText(vendor.getDescription().value);
-        vendor.getTags().stream().sorted(Comparator.comparing(tag -> tag.tagName))
-                .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+        if (vendor != null) {
+            name.setText(vendor.getName().fullName);
+            phone.setText(vendor.getPhone().value);
+            description.setText(vendor.getDescription().value);
+            vendor.getTags().stream().sorted(Comparator.comparing(tag -> tag.tagName))
+                    .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+        } else {
+            name.setText("");
+            phone.setText("");
+            description.setText("");
+        }
     }
 
     private void showVendorDetails() {
-        detailsHolder.setVisible(true);
-        noVendorMsg.setVisible(false);
+        if (vendor == null) {
+            detailsHolder.setVisible(false);
+            noVendorMsg.setVisible(true);
+        } else {
+            detailsHolder.setVisible(true);
+            noVendorMsg.setVisible(false);
+        }
     }
 
-    private void updateAssignedEvents(ObservableSet<Pair<Vendor, Event>> associations) {
-        assignedEvents.clear();
-        assignedEvents.addAll(
-                associations.stream().filter(pair -> pair.getKey().equals(vendor)).map(Pair::getValue).toList());
+    /**
+     * Updates the assigned events based on the current vendor.
+     */
+    private void updateAssignedEvents() {
+        if (vendor == null) {
+            assignedEvents.clear();
+        } else {
+            assignedEvents.setAll(logic.getAssociatedEvents(vendor));
+        }
     }
-
 }

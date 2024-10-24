@@ -1,10 +1,16 @@
 {
   "vendors" : [ ],
-  "events": [ {
-    "name": "Carl Kurz Tea Party",
-    "date": "2021-12-12"
-  }, {
-    "name": "Carl Kurz Tea Party",
-    "date": "2021-12-12"
-  } ]
+  "events": [
+    {
+      "id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+      "name": "Carl Kurz Tea Party",
+      "date": "2021-12-12"
+    },
+    {
+      "id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+      "name": "Carl Kurz Tea Party",
+      "date": "2021-12-12"
+    }
+  ],
+  "associations": [ ]
 }

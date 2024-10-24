@@ -11,11 +11,10 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableObjectValue;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableSet;
 import javafx.collections.transformation.FilteredList;
-import javafx.util.Pair;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.model.association.Association;
 import seedu.address.model.commons.exceptions.AssociationDeleteException;
 import seedu.address.model.event.Event;
 import seedu.address.model.vendor.Vendor;
@@ -33,7 +32,6 @@ public class ModelManager implements Model {
     private final ObjectProperty<Vendor> selectedVendor;
     private final FilteredList<Event> filteredEvents;
     private final ObjectProperty<Event> selectedEvent;
-    private final ObservableSet<Pair<Vendor, Event>> associations;
     private final ObjectProperty<UiState> currentUiState;
 
     /**
@@ -48,7 +46,6 @@ public class ModelManager implements Model {
         this.userPrefs = new UserPrefs(userPrefs);
         filteredVendors = new FilteredList<>(this.addressBook.getVendorList());
         filteredEvents = new FilteredList<>(this.addressBook.getEventList());
-        associations = this.addressBook.getAssociations();
         selectedVendor = new SimpleObjectProperty<>(null);
         selectedEvent = new SimpleObjectProperty<>(null);
         currentUiState = new SimpleObjectProperty<>(UiState.DEFAULT);
@@ -185,6 +182,11 @@ public class ModelManager implements Model {
         return addressBook.getAssociatedVendors(event);
     }
 
+    @Override
+    public ObservableList<Association> getAssociationList() {
+        return addressBook.getAssociationList();
+    }
+
     // =========== Filtered Vendor List Accessors =============================================================
 
     /**
@@ -272,12 +274,6 @@ public class ModelManager implements Model {
     public void setUiState(UiState uiState) {
         requireNonNull(uiState);
         currentUiState.setValue(uiState);
-    }
-
-    // =========== Association Accessors =============================================================
-    @Override
-    public ObservableSet<Pair<Vendor, Event>> getAssociations() {
-        return associations;
     }
 
 }

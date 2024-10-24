@@ -1,7 +1,11 @@
 {
-  "vendors": [ {
-    "name": "Hans Muster",
-    "description": "4th street"
-  } ],
-  "events" : [ ]
+  "vendors": [
+    {
+      "id": "a1b2c3d4-e567-89f0-1234-56789abcdef0",
+      "name": "Hans Muster",
+      "description": "4th street"
+    }
+  ],
+  "events": [],
+  "associations": []
 }

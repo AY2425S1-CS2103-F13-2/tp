@@ -39,12 +39,72 @@ public abstract class EditCommand extends Command {
 
     protected final Index index;
 
-    /**
-     * @param targetIndex in the filtered list to edit
-     */
     public EditCommand(Index targetIndex) {
         requireNonNull(targetIndex);
         this.index = targetIndex;
+    }
+
+    /**
+     * @param targetIndex in the filtered list to edit
+     */
+    public EditCommand(Index index, EditVendorDescriptor editVendorDescriptor) {
+        requireNonNull(index);
+        requireNonNull(editVendorDescriptor);
+
+        this.index = index;
+        this.editVendorDescriptor = new EditVendorDescriptor(editVendorDescriptor);
+    }
+
+    @Override
+    public CommandResult execute(Model model) throws CommandException {
+        requireNonNull(model);
+        List<Vendor> lastShownList = model.getFilteredVendorList();
+
+        if (index.getZeroBased() >= lastShownList.size()) {
+            throw new CommandException(Messages.MESSAGE_INVALID_VENDOR_DISPLAYED_INDEX);
+        }
+
+        Vendor vendorToEdit = lastShownList.get(index.getZeroBased());
+        Vendor editedVendor = createEditedVendor(vendorToEdit, editVendorDescriptor);
+
+        if (!vendorToEdit.isSameVendor(editedVendor) && model.hasVendor(editedVendor)) {
+            throw new CommandException(MESSAGE_DUPLICATE_VENDOR);
+        }
+
+        model.setVendor(vendorToEdit, editedVendor);
+        model.updateFilteredVendorList(PREDICATE_SHOW_ALL_VENDORS);
+        return new CommandResult(String.format(MESSAGE_EDIT_VENDOR_SUCCESS, Messages.format(editedVendor)));
+    }
+
+    /**
+     * Creates and returns a {@code Vendor} with the details of {@code vendorToEdit}
+     * edited with {@code editVendorDescriptor}.
+     */
+    private static Vendor createEditedVendor(Vendor vendorToEdit, EditVendorDescriptor editVendorDescriptor) {
+        assert vendorToEdit != null;
+
+        Name updatedName = editVendorDescriptor.getName().orElse(vendorToEdit.getName());
+        Phone updatedPhone = editVendorDescriptor.getPhone().orElse(vendorToEdit.getPhone());
+        Description updatedDescription = editVendorDescriptor.getDescription().orElse(vendorToEdit.getDescription());
+        Set<Tag> updatedTags = editVendorDescriptor.getTags().orElse(vendorToEdit.getTags());
+
+        return new Vendor(vendorToEdit.getId(), updatedName, updatedPhone, updatedDescription, updatedTags);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof EditCommand)) {
+            return false;
+        }
+
+        EditCommand otherEditCommand = (EditCommand) other;
+        return index.equals(otherEditCommand.index)
+                && editVendorDescriptor.equals(otherEditCommand.editVendorDescriptor);
     }
 
     @Override

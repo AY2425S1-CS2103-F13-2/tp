@@ -4,13 +4,12 @@ import java.nio.file.Path;
 
 import javafx.beans.value.ObservableObjectValue;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableSet;
-import javafx.util.Pair;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.association.Association;
 import seedu.address.model.event.Event;
 import seedu.address.model.vendor.Vendor;
 import seedu.address.ui.UiState;
@@ -50,8 +49,14 @@ public interface Logic {
     /** Returns the current state of the UI */
     ObservableObjectValue<UiState> getUiState();
 
-    /** Returns a view of the associations */
-    ObservableSet<Pair<Vendor, Event>> getAssociations();
+    /** Returns list of associated events */
+    ObservableList<Event> getAssociatedEvents(Vendor vendor);
+
+    /** Returns list of associated vendors */
+    ObservableList<Vendor> getAssociatedVendors(Event event);
+
+    /** Returns list of associations */
+    ObservableList<Association> getAssociationList();
 
     /**
      * Returns the user prefs' address book file path.

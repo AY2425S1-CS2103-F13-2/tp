@@ -3,19 +3,19 @@ package seedu.address.model;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableSet;
-import javafx.util.Pair;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.association.Association;
+import seedu.address.model.association.UniqueAssociationList;
 import seedu.address.model.commons.exceptions.AssociationDeleteException;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.UniqueEventList;
+import seedu.address.model.id.UniqueId;
 import seedu.address.model.vendor.UniqueVendorList;
 import seedu.address.model.vendor.Vendor;
 
@@ -27,8 +27,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniqueVendorList vendors;
     private final UniqueEventList events;
-    private final ObservableSet<Pair<Vendor, Event>> associations;
-    // private final ObservableSet<Pair<Vendor, Event>> associations;
+    private final UniqueAssociationList associations;
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
@@ -39,7 +38,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     {
         vendors = new UniqueVendorList();
-        associations = FXCollections.observableSet(new HashSet<>());
+        associations = new UniqueAssociationList();
         events = new UniqueEventList();
     }
 
@@ -72,6 +71,14 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
+     * Replaces the contents of the association list with {@code associations}.
+     * {@code associations} must not contain duplicate associations.
+     */
+    public void setAssociations(List<Association> associations) {
+        this.associations.setAssociations(associations);
+    }
+
+    /**
      * Resets the existing data of this {@code AddressBook} with {@code newData}.
      */
     public void resetData(ReadOnlyAddressBook newData) {
@@ -79,6 +86,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
         setVendors(newData.getVendorList());
         setEvents(newData.getEventList());
+        setAssociations(newData.getAssociationList());
     }
 
     //// vendor-level operations
@@ -127,22 +135,32 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     /**
      * Returns true if the given {@code vendor} is already assigned to the given {@code event}.
-     * {@code vendor} and {@code event} must exist in the address book.
+     * {@code vendor} and {@code event} must exist in the respective lists.
      */
     public boolean isVendorAssignedToEvent(Vendor vendor, Event event) {
         requireAllNonNull(vendor, event);
-        Pair<Vendor, Event> pair = new Pair<>(vendor, event);
-        return associations.contains(pair);
+
+        // Get the UniqueIds for vendor and event
+        UniqueId vendorId = vendor.getId();
+        UniqueId eventId = event.getId();
+
+        // Check for the association
+        Association association = new Association(vendorId, eventId);
+        return associations.contains(association);
     }
 
     /**
      * Assigns the given {@code vendor} in the list to {@code event}.
-     * {@code vendor} and {@code event} must exist in the address book.
+     * {@code vendor} and {@code event} must exist in their respective lists.
      */
     public void assignVendorToEvent(Vendor vendor, Event event) {
         requireAllNonNull(vendor, event);
-        Pair<Vendor, Event> pair = new Pair<>(vendor, event);
-        associations.add(pair);
+
+        UniqueId vendorId = vendor.getId();
+        UniqueId eventId = event.getId();
+
+        Association association = new Association(vendorId, eventId);
+        associations.add(association);
     }
 
     /**
@@ -151,8 +169,12 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     void unassignVendorFromEvent(Vendor vendor, Event event) {
         requireAllNonNull(vendor, event);
-        Pair<Vendor, Event> pair = new Pair<>(vendor, event);
-        associations.remove(pair);
+
+        UniqueId vendorId = vendor.getId();
+        UniqueId eventId = event.getId();
+
+        Association association = new Association(vendorId, eventId);
+        associations.remove(association);
     }
 
     /**
@@ -160,9 +182,11 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public ObservableList<Vendor> getAssociatedVendors(Event event) {
         requireNonNull(event);
-        List<Vendor> vendorsList = associations.stream()
-                .filter(pair -> pair.getValue().equals(event))
-                .map(Pair::getKey)
+        UniqueId eventId = event.getId();
+        List<Vendor> vendorsList = associations.asUnmodifiableObservableList().stream()
+                .filter(association -> association.getEventId().equals(eventId))
+                .map(association -> vendors.getVendorById(association.getVendorId()))
+                .filter(Objects::nonNull) // Ensure no null values are added
                 .collect(Collectors.toList());
 
         return FXCollections.observableArrayList(vendorsList);
@@ -173,9 +197,11 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public ObservableList<Event> getAssociatedEvents(Vendor vendor) {
         requireNonNull(vendor);
-        List<Event> eventsList = associations.stream()
-                .filter(pair -> pair.getKey().equals(vendor))
-                .map(Pair::getValue)
+        UniqueId vendorId = vendor.getId();
+        List<Event> eventsList = associations.asUnmodifiableObservableList().stream()
+                .filter(association -> association.getVendorId().equals(vendorId))
+                .map(association -> events.getEventById(association.getEventId()))
+                .filter(Objects::nonNull) // Ensure no null values are added
                 .collect(Collectors.toList());
 
         return FXCollections.observableArrayList(eventsList);
@@ -230,6 +256,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         return new ToStringBuilder(this)
                 .add("vendors", vendors)
                 .add("events", events)
+                .add("associations", associations)
                 .toString();
     }
 
@@ -244,8 +271,8 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     @Override
-    public ObservableSet<Pair<Vendor, Event>> getAssociations() {
-        return associations;
+    public ObservableList<Association> getAssociationList() {
+        return associations.asUnmodifiableObservableList();
     }
 
     @Override

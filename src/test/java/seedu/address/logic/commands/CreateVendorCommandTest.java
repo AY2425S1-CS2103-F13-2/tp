@@ -16,8 +16,6 @@ import org.junit.jupiter.api.Test;
 
 import javafx.beans.value.ObservableObjectValue;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableSet;
-import javafx.util.Pair;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -25,6 +23,7 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
+import seedu.address.model.association.Association;
 import seedu.address.model.event.Event;
 import seedu.address.model.vendor.Vendor;
 import seedu.address.testutil.VendorBuilder;
@@ -250,7 +249,7 @@ public class CreateVendorCommandTest {
         }
 
         @Override
-        public ObservableSet<Pair<Vendor, Event>> getAssociations() {
+        public ObservableList<Association> getAssociationList() {
             throw new AssertionError("This method should not be called.");
         }
     }

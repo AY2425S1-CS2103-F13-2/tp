@@ -5,9 +5,8 @@ import java.util.function.Predicate;
 
 import javafx.beans.value.ObservableObjectValue;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableSet;
-import javafx.util.Pair;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.association.Association;
 import seedu.address.model.commons.exceptions.AssociationDeleteException;
 import seedu.address.model.event.Event;
 import seedu.address.model.vendor.Vendor;
@@ -119,6 +118,11 @@ public interface Model {
     ObservableList<Event> getAssociatedEvents(Vendor vendor);
 
     /**
+     * Returns list of associations.
+     */
+    ObservableList<Association> getAssociationList();
+
+    /**
      * Returns the current selected vendor.
      */
     ObservableObjectValue<Vendor> getViewedVendor();
@@ -180,9 +184,4 @@ public interface Model {
      * @param uiState {@code UiState} object.
      */
     public void setUiState(UiState uiState);
-
-    /**
-     * Returns an unmodifiable view of the associations set.
-     */
-    public ObservableSet<Pair<Vendor, Event>> getAssociations();
 }

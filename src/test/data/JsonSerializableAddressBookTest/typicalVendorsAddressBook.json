@@ -1,40 +1,56 @@
 {
   "_comment": "AddressBook save file which contains the same Vendor values as in TypicalVendors#getTypicalAddressBook()",
-  "vendors" : [ {
-    "name" : "Alice Pauline",
-    "phone" : "94351253",
-    "description" : "123, Jurong West Ave 6, #08-111",
-    "tags" : [ "friends" ]
-  }, {
-    "name" : "Benson Meier",
-    "phone" : "98765432",
-    "description" : "311, Clementi Ave 2, #02-25",
-    "tags" : [ "owesMoney", "friends" ]
-  }, {
-    "name" : "Carl Kurz",
-    "phone" : "95352563",
-    "description" : "wall street",
-    "tags" : [ ]
-  }, {
-    "name" : "Daniel Meier",
-    "phone" : "87652533",
-    "description" : "10th street",
-    "tags" : [ "friends" ]
-  }, {
-    "name" : "Elle Meyer",
-    "phone" : "9482224",
-    "description" : "michegan ave",
-    "tags" : [ ]
-  }, {
-    "name" : "Fiona Kunz",
-    "phone" : "9482427",
-    "description" : "little tokyo",
-    "tags" : [ ]
-  }, {
-    "name" : "George Best",
-    "phone" : "9482442",
-    "description" : "4th street",
-    "tags" : [ ]
-  } ],
-  "events" : [ ]
+  "vendors": [
+    {
+      "id": "a1e2c3d4-5f67-4890-8a1b-123456789abc",
+      "name": "Alice Pauline",
+      "phone": "94351253",
+      "description": "123, Jurong West Ave 6, #08-111",
+      "tags": ["friends"]
+    },
+    {
+      "id": "b2f3d4e5-6a78-491a-9b2c-23456789abcd",
+      "name": "Benson Meier",
+      "phone": "98765432",
+      "description": "311, Clementi Ave 2, #02-25",
+      "tags": ["owesMoney", "friends"]
+    },
+    {
+      "id": "c3a4e5f6-7a89-4c2d-ac3d-3456789bcdef",
+      "name": "Carl Kurz",
+      "phone": "95352563",
+      "description": "wall street",
+      "tags": []
+    },
+    {
+      "id": "d4b5f6a7-8a90-4d3e-ad4e-456789cdef01",
+      "name": "Daniel Meier",
+      "phone": "87652533",
+      "description": "10th street",
+      "tags": ["friends"]
+    },
+    {
+      "id": "e5a6a7a8-9a01-4e4f-be5f-56789def0123",
+      "name": "Elle Meyer",
+      "phone": "9482224",
+      "description": "michegan ave",
+      "tags": []
+    },
+    {
+      "id": "f6a7a8aa-0a12-4f5a-cf6a-6789ef012345",
+      "name": "Fiona Kunz",
+      "phone": "9482427",
+      "description": "little tokyo",
+      "tags": []
+    },
+    {
+      "id": "a7a8a9a0-1a23-4a6a-da7a-7890f1234567",
+      "name": "George Best",
+      "phone": "9482442",
+      "description": "4th street",
+      "tags": []
+    }
+  ],
+  "events": [],
+  "associations": []
 }

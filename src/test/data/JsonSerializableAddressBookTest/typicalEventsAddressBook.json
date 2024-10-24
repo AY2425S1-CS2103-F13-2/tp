@@ -1,27 +1,42 @@
 {
   "_comment": "AddressBook save file which contains the same Event values as in TypicalEvents#getTypicalAddressBook()",
-  "vendors" : [ ],
-  "events" : [ {
-    "name" : "Alice Pauline Wedding",
-    "date" : "2021-10-10"
-  }, {
-    "name" : "Benson Meier Birthday",
-    "date" : "2021-11-11",
-    "tags" : ["party", "alcohol", "classmates"]
-  }, {
-    "name" : "Carl Kurz Tea Party",
-    "date" : "2021-12-12"
-  }, {
-    "name" : "Daniel Meier Farewell",
-    "date" : "2022-01-01"
-  }, {
-    "name" : "Elle Meyer Banquet",
-    "date" : "2022-02-02"
-  }, {
-    "name" : "Fiona Kunz Reunion",
-    "date" : "2022-03-03"
-  }, {
-    "name" : "George Best Concert",
-    "date" : "2022-04-04"
-  } ]
+  "vendors": [],
+  "events": [
+    {
+      "id": "a1e2c3d4-5f67-4890-8a1b-123456789abc",
+      "name": "Alice Pauline Wedding",
+      "date": "2021-10-10"
+    },
+    {
+      "id": "b2e3c4d5-6f78-49a1-9b2c-23456789abcd",
+      "name": "Benson Meier Birthday",
+      "date": "2021-11-11"
+    },
+    {
+      "id": "c3f4d5e6-7e89-4b2d-ac3d-3456789bcdef",
+      "name": "Carl Kurz Tea Party",
+      "date": "2021-12-12"
+    },
+    {
+      "id": "d4f5e6f7-8a90-4c3e-ad4e-456789cdef01",
+      "name": "Daniel Meier Farewell",
+      "date": "2022-01-01"
+    },
+    {
+      "id": "e5a6c7b8-9d01-4d4f-be5f-56789def0123",
+      "name": "Elle Meyer Banquet",
+      "date": "2022-02-02"
+    },
+    {
+      "id": "f6d7d8a9-0a12-4e5f-cf6a-6789ef012345",
+      "name": "Fiona Kunz Reunion",
+      "date": "2022-03-03"
+    },
+    {
+      "id": "c7b8c9a0-1a23-4f6a-d97b-7890f1234567",
+      "name": "George Best Concert",
+      "date": "2022-04-04"
+    }
+  ],
+  "associations": []
 }

@@ -20,8 +20,8 @@ import org.junit.jupiter.api.io.TempDir;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.SetChangeListener;
-import javafx.util.Pair;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.CreateVendorCommand;
 import seedu.address.logic.commands.ListCommand;
@@ -31,7 +31,10 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.association.Association;
 import seedu.address.model.event.Event;
+import seedu.address.model.event.UniqueEventList;
+import seedu.address.model.vendor.UniqueVendorList;
 import seedu.address.model.vendor.Vendor;
 import seedu.address.storage.JsonAddressBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
@@ -153,13 +156,48 @@ public class LogicManagerTest {
 
     @Test
     public void getAssociation_newAssociation_updateSuccessful() {
-        ObjectProperty<Pair<Vendor, Event>> observedState = new SimpleObjectProperty<>();
-        logic.getAssociations().addListener((SetChangeListener.Change<? extends Pair<Vendor, Event>> change) -> {
-            observedState.set(change.getElementAdded());
+        ObjectProperty<Association> observedState = new SimpleObjectProperty<>();
+        ObservableList<Association> associations = logic.getAssociationList();
+        associations.addListener((ListChangeListener<? super Association>) change -> {
+            if (change.next() && change.wasAdded()) {
+                observedState.set(change.getAddedSubList().get(0));
+            }
         });
 
         model.assignVendorToEvent(TypicalVendors.AMY, TypicalEvents.BIRTHDAY);
-        assertEquals(observedState.get(), new Pair<>(TypicalVendors.AMY, TypicalEvents.BIRTHDAY));
+
+        UniqueVendorList uniqueVendorList = new UniqueVendorList();
+        uniqueVendorList.add(TypicalVendors.AMY);
+
+        UniqueEventList uniqueEventList = new UniqueEventList();
+        uniqueEventList.add(TypicalEvents.BIRTHDAY);
+
+        Vendor uniqueVendor = null;
+        for (Vendor vendor : uniqueVendorList) {
+            if (vendor.equals(TypicalVendors.AMY)) {
+                uniqueVendor = vendor;
+                break;
+            }
+        }
+
+        if (uniqueVendor == null) {
+            throw new IllegalArgumentException("Vendor not found");
+        }
+
+        Event uniqueEvent = null;
+        for (Event event : uniqueEventList) {
+            if (event.equals(TypicalEvents.BIRTHDAY)) {
+                uniqueEvent = event;
+                break;
+            }
+        }
+
+        if (uniqueEvent == null) {
+            throw new IllegalArgumentException("Event not found");
+        }
+
+        Association expectedAssociation = new Association(uniqueVendor.getId(), uniqueEvent.getId());
+        assertEquals(observedState.get(), expectedAssociation);
     }
 
     /**

@@ -19,6 +19,7 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.EventNameContainsKeywordsPredicate;
+import seedu.address.model.id.UniqueId;
 import seedu.address.model.vendor.NameContainsKeywordsPredicate;
 import seedu.address.model.vendor.Vendor;
 import seedu.address.testutil.EditEventDescriptorBuilder;
@@ -29,6 +30,8 @@ import seedu.address.testutil.EditVendorDescriptorBuilder;
  */
 public class CommandTestUtil {
 
+    public static final UniqueId VALID_ID_AMY = new UniqueId("e54d0fd0-4eaa-11ec-81d3-0242ac130003");
+    public static final UniqueId VALID_ID_BOB = new UniqueId("e54d0fd0-4eaa-11ec-81d3-0242ac130004");
     public static final String VALID_NAME_AMY = "Amy Bee";
     public static final String VALID_NAME_BOB = "Bob Choo";
     public static final String VALID_PHONE_AMY = "11111111";

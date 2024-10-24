@@ -5,6 +5,7 @@ import java.util.Set;
 
 import seedu.address.model.commons.name.Name;
 import seedu.address.model.commons.tag.Tag;
+import seedu.address.model.id.UniqueId;
 import seedu.address.model.util.SampleDataUtil;
 import seedu.address.model.vendor.Description;
 import seedu.address.model.vendor.Phone;
@@ -20,6 +21,7 @@ public class VendorBuilder {
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
     public static final String DEFAULT_DESCRIPTION = "123, Jurong West Ave 6, #08-111";
 
+    private UniqueId id;
     private Name name;
     private Phone phone;
     private Description description;
@@ -29,6 +31,7 @@ public class VendorBuilder {
      * Creates a {@code VendorBuilder} with the default details.
      */
     public VendorBuilder() {
+        this.id = new UniqueId();
         name = new Name(DEFAULT_NAME);
         phone = new Phone(DEFAULT_PHONE);
         description = new Description(DEFAULT_DESCRIPTION);
@@ -36,13 +39,22 @@ public class VendorBuilder {
     }
 
     /**
-     * Initializes the VendorBuilder with the data of {@code vendorToCopy}.
+     * Initializes the VendorBuilder with the data of {@code vendorToCopy}, including the ID.
      */
     public VendorBuilder(Vendor vendorToCopy) {
+        id = vendorToCopy.getId();
         name = vendorToCopy.getName();
         phone = vendorToCopy.getPhone();
         description = vendorToCopy.getDescription();
         tags = new HashSet<>(vendorToCopy.getTags());
+    }
+
+    /**
+     * Sets the {@code UniqueId} of the {@code Vendor} that we are building.
+     */
+    public VendorBuilder withId(UniqueId id) {
+        this.id = id;
+        return this;
     }
 
     /**
@@ -54,7 +66,7 @@ public class VendorBuilder {
     }
 
     /**
-     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the
+     * Parses the {@code tags} into a {@code Set<Tag>} and sets it to the
      * {@code Vendor} that we are building.
      */
     public VendorBuilder withTags(String... tags) {
@@ -78,8 +90,11 @@ public class VendorBuilder {
         return this;
     }
 
+    /**
+     * Builds and returns the {@code Vendor}.
+     * If the ID was not explicitly set, it will be auto-generated.
+     */
     public Vendor build() {
-        return new Vendor(name, phone, description, tags);
+        return new Vendor(id, name, phone, description, tags);
     }
-
 }

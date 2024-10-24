@@ -1,13 +1,20 @@
 {
-  "vendors": [ {
-    "name": "Alice Pauline",
-    "phone": "94351253",
-    "description": "123, Jurong West Ave 6, #08-111",
-    "tags": [ "friends" ]
-  }, {
-    "name": "Alice Pauline",
-    "phone": "94351253",
-    "description": "4th street"
-  } ],
-  "events" : [ ]
+  "vendors": [
+    {
+      "id": "d290f1ee-6c54-4b01-90e6-d701748f0851",
+      "name": "Alice Pauline",
+      "phone": "94351253",
+      "description": "123, Jurong West Ave 6, #08-111",
+      "tags": ["friends"]
+    },
+    {
+      "id": "d290f1ee-6c54-4b01-90e6-d701748f0851",
+      "name": "Alice Pauline",
+      "phone": "94351253",
+      "description": "4th street",
+      "tags": []
+    }
+  ],
+  "events": [],
+  "associations": []
 }
