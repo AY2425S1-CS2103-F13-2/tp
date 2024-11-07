@@ -680,130 +680,38 @@ testers are expected to do more *exploratory* testing.
 
    1. Download the jar file and copy into an empty folder
 
-   2. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
 
-2. Saving window preferences
+1. Saving window preferences
 
    1. Resize the window to an optimum size. Move the window to a different location. Close the window.
 
-   2. Re-launch the app by double-clicking the jar file.<br>
-      Expected: The most recent window size and location is retained.
+   1. Re-launch the app by double-clicking the jar file.<br>
+       Expected: The most recent window size and location is retained.
 
-### Create Command
+1. _{ more test cases …​ }_
 
-1.  Create a Vendor:
+### Deleting a person
 
-    1. Type `create v/ n/Hong Lim Trading Pte. Ltd. p/67412943 d/Specialises in lighting effects. t/stage-crew` <br>
-       Expected: A new vendor, "Hong Lim Trading Pte. Ltd.," appears in the vendor list with the provided details.
+1. Deleting a person while all persons are being shown
 
-2.  Create an Event:
-    1. Type `create e/ n/Jubilee Concert on/2025-01-24 t/annual` <br>
-       Expected: A new event, "Jubilee Concert," appears in the event list with the provided date and tag.
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
 
-### Edit Command
+   1. Test case: `delete 1`<br>
+      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
 
-1.  Edit Vendor Details:
+   1. Test case: `delete 0`<br>
+      Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
 
-    1. Type `edit v/1 p/58623042` <br>
-       Expected: The phone number of the first vendor in the list updates to `58623042`.
+   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
+      Expected: Similar to previous.
 
-2.  Edit Event Name and Tags:
+1. _{ more test cases …​ }_
 
-    1.  Type `edit e/2 n/Baby Shower t/` <br>
-        Expected: The event name changes to "Baby Shower," and any existing tags are removed.
+### Saving data
 
-### Delete Command
+1. Dealing with missing/corrupted data files
 
-1.  Delete a Vendor:
+   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
-    1.  Type `delete v/1` <br>
-        Expected: The first vendor in the list is removed from EventTory.
-
-2.  Delete an Event:
-
-    1. Type `delete e/2` <br>
-       Expected: The second event in the list is removed from EventTory.
-
-### List Command
-
-1.  List Vendors Only:
-
-    1. Type `list v/` <br>
-       Expected: Only the list of vendors is displayed.
-
-2.  List Events Only:
-
-    1. Type `list e/` <br>
-       Expected: Only the list of events is displayed.
-
-3.  List All Vendors and Events:
-
-    1. Type `list` <br>
-       Expected: Both vendors and events lists are displayed together.
-
-### View Command
-
-1.  View Vendor Details:
-
-    1. Type `view v/1` <br>
-       Expected: Details of the first vendor, including assigned events, are displayed.
-
-2.  View Event Details:
-
-    1. Type `view e/1` <br>
-       Expected: Details of the first event, including assigned vendors, are displayed.
-
-### Assign Command
-
-1.  Assign a Vendor to an Event:
-
-    1.  Type `view e/1` to view an event.
-    2.  Type `assign 1` to assign the first vendor to this event. <br>
-        Expected: The selected vendor appears as assigned to the event.
-
-### Unassign Command
-
-1.  Unassign a Vendor from an Event:
-
-    1.  While viewing an event with an assigned vendor, type `unassign 1`. <br>
-        Expected: The vendor is unassigned and no longer appears under the event's assigned vendors list.
-
-### Find Command
-
-1.  Search for a Vendor by Keyword:
-
-    1. Type `find v/ catering` <br>
-       Expected: Vendors with names, descriptions, or tags matching "catering" are displayed.
-
-2.  Search for an Event by Keyword:
-
-    1. Type `find e/ wedding` <br>
-       Expected: Events with names or tags matching "wedding" are displayed.
-
-### Clear Command
-
-1.  Clear All Entries:
-
-    1. Type `clear` <br>
-       Expected: All vendors and events are deleted, resulting in an empty list.
-
-### Data Persistence
-
-1.  Confirm Data Saving:
-
-    1. Create a new vendor or event, close the application, reopen it, and check if the new entries are still present. <br>
-       Expected: The added entries persist after restarting the application.
-
-### Miscellaneous Commands
-
-1. Getting Help
-
-   1. Type `help` in the command box and press Enter.  
-      Expected: A help window appears, showing instructions and command summaries.
-
-### Editing Data File (Advanced Users)
-
-1.  Manually Edit JSON Data:
-
-    1. Open the JSON data file located in `[JAR file location]/data/eventTory.json`, make changes, and restart EventTory. <br>
-       Expected: Changes are reflected in the application, but incorrect formatting (e.g., invalid JSON) should prompt the app to reset to an empty state.
+1. _{ more test cases …​ }_
