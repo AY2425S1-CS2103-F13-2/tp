@@ -66,7 +66,7 @@ else viewing Event Details
     end
     AssignCommand -> Model : assignVendorToEvent(vendor, event)
 else invalid view
-    AssignCommand -> LogicManager : CommandResult(MESSAGE_ASSIGN_FAILURE_INVALID_VIEW)
+    AssignCommand --> LogicManager : CommandResult(MESSAGE_ASSIGN_FAILURE_INVALID_VIEW)
 end
 
 create CommandResult
