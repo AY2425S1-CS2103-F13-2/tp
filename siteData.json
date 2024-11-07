@@ -63,8 +63,18 @@
         "glossary": "Glossary",
         "appendix-instructions-for-manual-testing": "Appendix: Instructions for manual testing",
         "launch-and-shutdown": "Launch and shutdown",
-        "deleting-a-person": "Deleting a person",
-        "saving-data": "Saving data"
+        "create-command": "Create Command",
+        "edit-command": "Edit Command",
+        "delete-command": "Delete Command",
+        "list-command": "List Command",
+        "view-command": "View Command",
+        "assign-command": "Assign Command",
+        "unassign-command": "Unassign Command",
+        "find-command": "Find Command",
+        "clear-command": "Clear Command",
+        "data-persistence": "Data Persistence",
+        "miscellaneous-commands": "Miscellaneous Commands",
+        "editing-data-file-advanced-users": "Editing Data File (Advanced Users)"
       },
       "headingKeywords": {}
     },
