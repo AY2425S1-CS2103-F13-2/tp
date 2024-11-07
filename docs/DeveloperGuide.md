@@ -676,13 +676,13 @@ testers are expected to do more *exploratory* testing.
 
 ### Launch and shutdown
 
-1. Initial launch
+1. Initial launch:
 
    1. Download the jar file and copy into an empty folder
 
    2. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
 
-2. Saving window preferences
+2. Saving window preferences:
 
    1. Resize the window to an optimum size. Move the window to a different location. Close the window.
 
@@ -694,23 +694,24 @@ testers are expected to do more *exploratory* testing.
 1.  Create a Vendor:
 
     1. Type `create v/ n/Hong Lim Trading Pte. Ltd. p/67412943 d/Specialises in lighting effects. t/stage-crew` <br>
-       Expected: A new vendor, "Hong Lim Trading Pte. Ltd.," appears in the vendor list with the provided details.
+       Expected: A new vendor "Hong Lim Trading Pte. Ltd." appears in the vendor list with the provided details.
 
 2.  Create an Event:
+
     1. Type `create e/ n/Jubilee Concert on/2025-01-24 t/annual` <br>
-       Expected: A new event, "Jubilee Concert," appears in the event list with the provided date and tag.
+       Expected: A new event "Jubilee Concert" appears in the event list with the provided date and tag.
 
 ### Edit Command
 
 1.  Edit Vendor Details:
 
-    1. Type `edit v/1 p/58623042` <br>
-       Expected: The phone number of the first vendor in the list updates to `58623042`.
+    1.  Type `edit v/1 p/58623042` <br>
+        Expected: The phone number of the first vendor in the list updates to `58623042`.
 
 2.  Edit Event Name and Tags:
 
     1.  Type `edit e/2 n/Baby Shower t/` <br>
-        Expected: The event name changes to "Baby Shower," and any existing tags are removed.
+        Expected: The event name changes to "Baby Shower" and any existing tags are removed.
 
 ### Delete Command
 
@@ -796,14 +797,14 @@ testers are expected to do more *exploratory* testing.
 
 ### Miscellaneous Commands
 
-1. Getting Help
+1. Getting Help:
 
    1. Type `help` in the command box and press Enter.  
-      Expected: A help window appears, showing instructions and command summaries.
+      Expected: A help window appears with a link to the user guide.
 
 ### Editing Data File (Advanced Users)
 
 1.  Manually Edit JSON Data:
 
     1. Open the JSON data file located in `[JAR file location]/data/eventTory.json`, make changes, and restart EventTory. <br>
-       Expected: Changes are reflected in the application, but incorrect formatting (e.g., invalid JSON) should prompt the app to reset to an empty state.
+       Expected: Changes are reflected in the application, but incorrect formatting (e.g., invalid JSON) should prompt the app to reset to an empty list.
