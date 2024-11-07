@@ -115,6 +115,7 @@
         "listing-items-list": "Listing Items : list",
         "editing-a-person-edit": "Editing a person : edit",
         "assigning-vendors-and-amp-events-assign": "Assigning Vendors &amp; Events: assign",
+        "unassigning-vendors-and-amp-events-unassign": "Unassigning Vendors &amp; Events: unassign",
         "locating-persons-by-name-find": "Locating persons by name: find",
         "deleting-a-person-delete": "Deleting a person : delete",
         "clearing-all-entries-clear": "Clearing all entries : clear",
