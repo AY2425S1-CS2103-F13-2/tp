@@ -440,7 +440,7 @@ with(this){return _c('h2',{attrs:{"id":"appendix-instructions-for-manual-testing
 with(this){return _c('h3',{attrs:{"id":"launch-and-shutdown"}},[_v("Launch and shutdown"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#launch-and-shutdown","onclick":"event.stopPropagation()"}})])}
 },function anonymous(
 ) {
-with(this){return _c('ol',[_c('li',[_c('p',[_v("Initial launch")]),_v(" "),_c('ol',[_c('li',[_c('p',[_v("Download the jar file and copy into an empty folder")])]),_v(" "),_c('li',[_c('p',[_v("Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.")])])])]),_v(" "),_c('li',[_c('p',[_v("Saving window preferences")]),_v(" "),_c('ol',[_c('li',[_c('p',[_v("Resize the window to an optimum size. Move the window to a different location. Close the window.")])]),_v(" "),_c('li',[_c('p',[_v("Re-launch the app by double-clicking the jar file."),_c('br'),_v("\nExpected: The most recent window size and location is retained.")])])])])])}
+with(this){return _c('ol',[_c('li',[_c('p',[_v("Initial launch:")]),_v(" "),_c('ol',[_c('li',[_c('p',[_v("Download the jar file and copy into an empty folder")])]),_v(" "),_c('li',[_c('p',[_v("Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.")])])])]),_v(" "),_c('li',[_c('p',[_v("Saving window preferences:")]),_v(" "),_c('ol',[_c('li',[_c('p',[_v("Resize the window to an optimum size. Move the window to a different location. Close the window.")])]),_v(" "),_c('li',[_c('p',[_v("Re-launch the app by double-clicking the jar file."),_c('br'),_v("\nExpected: The most recent window size and location is retained.")])])])])])}
 },function anonymous(
 ) {
 with(this){return _c('h3',{attrs:{"id":"create-command"}},[_v("Create Command"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#create-command","onclick":"event.stopPropagation()"}})])}
@@ -506,7 +506,7 @@ with(this){return _c('ol',[_c('li',[_c('p',[_v("Confirm Data Saving:")]),_v(" ")
 with(this){return _c('h3',{attrs:{"id":"miscellaneous-commands"}},[_v("Miscellaneous Commands"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#miscellaneous-commands","onclick":"event.stopPropagation()"}})])}
 },function anonymous(
 ) {
-with(this){return _c('ol',[_c('li',[_c('p',[_v("Getting Help")]),_v(" "),_c('ol',[_c('li',[_v("Type "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("help")]),_v(" in the command box and press Enter."),_c('br'),_v("\nExpected: A help window appears, showing instructions and command summaries.")])])])])}
+with(this){return _c('ol',[_c('li',[_c('p',[_v("Getting Help:")]),_v(" "),_c('ol',[_c('li',[_v("Type "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("help")]),_v(" in the command box and press Enter."),_c('br'),_v("\nExpected: A help window appears, showing instructions and command summaries.")])])])])}
 },function anonymous(
 ) {
 with(this){return _c('h3',{attrs:{"id":"editing-data-file-advanced-users"}},[_v("Editing Data File (Advanced Users)"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#editing-data-file-advanced-users","onclick":"event.stopPropagation()"}})])}
@@ -515,6 +515,6 @@ with(this){return _c('h3',{attrs:{"id":"editing-data-file-advanced-users"}},[_v(
 with(this){return _c('ol',[_c('li',[_c('p',[_v("Manually Edit JSON Data:")]),_v(" "),_c('ol',[_c('li',[_v("Open the JSON data file located in "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("[JAR file location]/data/eventTory.json")]),_v(", make changes, and restart EventTory. "),_c('br'),_v("\nExpected: Changes are reflected in the application, but incorrect formatting (e.g., invalid JSON) should prompt the app to reset to an empty state.")])])])])}
 },function anonymous(
 ) {
-with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.5.3")]),_v(", generated on Thu, 7 Nov 2024, 23:27:47 GMT+8]")])])])}
+with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.5.3")]),_v(", generated on Thu, 7 Nov 2024, 23:28:34 GMT+8]")])])])}
 }];
   
