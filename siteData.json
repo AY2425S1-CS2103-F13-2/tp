@@ -137,7 +137,11 @@
       "src": "index.md",
       "title": "",
       "headings": {
-        "addressbook-level-3": "AddressBook Level-3"
+        "welcome-to-eventtory": "Welcome to EventTory!",
+        "about-eventtory": "About EventTory 📋",
+        "features": "Features ✨",
+        "get-started": "Get Started 🚀",
+        "acknowledgements": "Acknowledgements 🙏"
       },
       "headingKeywords": {}
     },
