@@ -72,7 +72,14 @@
         "clear-command": "Clear Command",
         "data-persistence": "Data Persistence",
         "miscellaneous-commands": "Miscellaneous Commands",
-        "editing-data-file-advanced-users": "Editing Data File (Advanced Users)"
+        "editing-data-file-advanced-users": "Editing Data File (Advanced Users)",
+        "appendix-planned-enhancements": "Appendix: Planned Enhancements",
+        "name-similarity-warning": "Name similarity warning",
+        "description-fields-for-events": "Description fields for events",
+        "association-note": "Association note",
+        "fine-grained-find-command": "Fine-grained find command",
+        "bulk-unassign": "Bulk unassign",
+        "enhanced-support-for-foreign-phone-numbers": "Enhanced Support for Foreign Phone Numbers"
       },
       "headingKeywords": {}
     },
