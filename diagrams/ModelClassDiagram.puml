@@ -4,30 +4,25 @@ skinparam arrowThickness 1.1
 skinparam arrowColor MODEL_COLOR
 skinparam classBackgroundColor MODEL_COLOR
 
-Package Model as ModelPackage <<Rectangle>>{
-Class "<<interface>>\nReadOnlyEventTory" as ReadOnlyEventTory
-Class "<<interface>>\nReadOnlyUserPrefs" as ReadOnlyUserPrefs
-Class "<<interface>>\nModel" as Model
-Class EventTory
-Class ModelManager
-Class UserPrefs
+Package Model as ModelPackage <<Rectangle>> {
+    Class "<<interface>>\nReadOnlyEventTory" as ReadOnlyEventTory
+    Class "<<interface>>\nReadOnlyUserPrefs" as ReadOnlyUserPrefs
+    Class "<<interface>>\nModel" as Model
+    Class EventTory
+    Class ModelManager
+    Class UserPrefs
 
-Class UniqueVendorList
-Class Vendor
-Class Description
-Class Name
-Class Phone
-Class Tag
-Class UniqueId
+    together {
+        Class UniqueVendorList
+        Class UniqueEventList
+        Class UniqueAssociationList
+    }
 
-Class UniqueEventList
-Class Event
-Class Date
+    Class Vendor
+    Class Event
+    Class Association
 
-Class UniqueAssociationList
-Class Association
-
-Class I #FFFFFF
+    Class I #FFFFFF
 }
 
 Class HiddenOutside #FFFFFF
@@ -46,26 +41,11 @@ EventTory *--> "1" UniqueAssociationList
 EventTory *--> "1" UniqueVendorList
 EventTory *--> "1" UniqueEventList
 UniqueVendorList --> "~* all" Vendor
-Vendor *--> Name
-Vendor *--> Phone
-Vendor *--> Description
-Vendor *--> UniqueId
-Vendor *--> "*" Tag
-
-UniqueEventList -->  "~* all" Event
-Event *--> Name
-Event *--> Date
-Event *--> UniqueId
-Event *-->  "*" Tag
+UniqueEventList --> "~* all" Event
 
 Vendor -[hidden]up--> I
 UniqueVendorList -[hidden]right-> I
 UniqueEventList -[hidden]right-> I
-
-Name -[hidden]right-> Phone
-Phone -[hidden]right-> Description
-Description -[hidden]right-> UniqueId
-UniqueId -[hidden]right-> Date
 
 ModelManager --> "~* filtered" Vendor
 ModelManager --> "~* filtered" Event
@@ -73,6 +53,5 @@ ModelManager --> "~* filtered" Event
 UniqueAssociationList --> "*" Association
 Vendor "1" -- "1" Event
 (Vendor, Event) .. Association
-Association *--> "2" UniqueId
 
 @enduml

@@ -1,0 +1,44 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":EventToryParser" as EventToryParser LOGIC_COLOR
+participant ":AssignCommandParser" as AssignCommandParser LOGIC_COLOR
+participant "a:AssignCommand" as AssignCommand LOGIC_COLOR
+end box
+
+[-> LogicManager : execute("assign 1")
+activate LogicManager
+
+LogicManager -> EventToryParser : parseCommand("assign 1")
+activate EventToryParser
+
+create AssignCommandParser
+EventToryParser -> AssignCommandParser
+activate AssignCommandParser
+
+AssignCommandParser --> EventToryParser
+deactivate AssignCommandParser
+
+EventToryParser -> AssignCommandParser : parse("1")
+activate AssignCommandParser
+
+create AssignCommand
+AssignCommandParser -> AssignCommand
+activate AssignCommand
+
+AssignCommand --> AssignCommandParser : a
+deactivate AssignCommand
+
+AssignCommandParser --> EventToryParser : a
+deactivate AssignCommandParser
+destroy AssignCommandParser
+
+EventToryParser --> LogicManager : a
+deactivate EventToryParser
+
+[<-- LogicManager
+deactivate LogicManager
+@enduml

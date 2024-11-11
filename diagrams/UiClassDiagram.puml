@@ -13,7 +13,6 @@ skinparam package<<Layout>> {
 
 package UI <<Rectangle>>{
 Class "<<interface>>\nUi" as Ui
-Class "{abstract}\nUiPart" as UiPart
 Class UiManager
 Class MainWindow
 Class HelpWindow
@@ -60,18 +59,6 @@ EventListPanel -down-> "*" EventCard
 VendorDetailsPanel -down-> "1" EventListPanel
 EventDetailsPanel -down-> "1" VendorListPanel
 
-MainWindow -left-|> UiPart
-
-ResultDisplay --|> UiPart
-CommandBox --|> UiPart
-VendorDetailsPanel --|> UiPart
-EventDetailsPanel --|> UiPart
-VendorListPanel --|> UiPart
-EventListPanel --|> UiPart
-StatusBarFooter --|> UiPart
-HelpWindow --|> UiPart
-VendorCard --|> UiPart
-EventCard --|> UiPart
 
 VendorCard ..> Model
 EventCard ..> Model
@@ -81,8 +68,6 @@ EventDetailsPanel ..> Model
 UiManager -right-> Logic
 MainWindow -left-> Logic
 
-EventDetailsPanel -[hidden]down- UiPart
-VendorDetailsPanel -[hidden]down- UiPart
 VendorList -[hidden]right- EventList
 EventList -[hidden]right- Model
 VendorList -[hidden]left- HelpWindow
@@ -90,5 +75,4 @@ HelpWindow -[hidden]left- CommandBox
 CommandBox -[hidden]left- ResultDisplay
 ResultDisplay -[hidden]left- StatusBarFooter
 
-MainWindow -[hidden]left-|> UiPart
 @enduml

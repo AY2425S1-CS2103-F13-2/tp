@@ -3,10 +3,7 @@
 skinparam ArrowFontStyle plain
 
 box Logic LOGIC_COLOR_T1
-participant ":LogicManager" as LogicManager LOGIC_COLOR
-participant ":EventToryParser" as EventToryParser LOGIC_COLOR
-participant ":AssignCommandParser" as AssignCommandParser LOGIC_COLOR
-participant "a:AssignCommand" as AssignCommand LOGIC_COLOR
+participant ":AssignCommand" as AssignCommand LOGIC_COLOR
 participant "r:CommandResult" as CommandResult LOGIC_COLOR
 end box
 
@@ -14,59 +11,20 @@ box Model MODEL_COLOR_T1
 participant "m:Model" as Model MODEL_COLOR
 end box
 
-[-> LogicManager : execute("assign 1")
-activate LogicManager
-
-LogicManager -> EventToryParser : parseCommand("assign 1")
-activate EventToryParser
-
-create AssignCommandParser
-EventToryParser -> AssignCommandParser
-activate AssignCommandParser
-
-AssignCommandParser --> EventToryParser
-deactivate AssignCommandParser
-
-EventToryParser -> AssignCommandParser : parse("1")
-activate AssignCommandParser
-
-create AssignCommand
-AssignCommandParser -> AssignCommand
-activate AssignCommand
-
-AssignCommand --> AssignCommandParser : a
-deactivate AssignCommand
-
-AssignCommandParser --> EventToryParser : a
-deactivate AssignCommandParser
-destroy AssignCommandParser
-
-EventToryParser --> LogicManager : a
-deactivate EventToryParser
-
-LogicManager -> AssignCommand : execute(m)
+-> AssignCommand : execute(m)
 activate AssignCommand
 
 AssignCommand -> Model : getUiState()
+activate Model
+Model --> AssignCommand : uiState
+deactivate Model
 
-alt viewing Vendor Details
-    AssignCommand -> Model : getViewedVendor()
-    AssignCommand -> Model : resolveEvent(selectedIndex)
-
-    opt vendor already assigned to event
-        AssignCommand --> LogicManager : CommandException(MESSAGE_VENDOR_ALREADY_ASSIGNED_TO_EVENT)
-    end
-    AssignCommand -> Model : assignVendorToEvent(vendor, event)
-else viewing Event Details
-    AssignCommand -> Model : getViewedEvent()
-    AssignCommand -> Model : resolveVendor(selectedIndex)
-
-    opt event already contains vendor
-        AssignCommand --> LogicManager : CommandException(MESSAGE_EVENT_ALREADY_ASSIGNED_TO_VENDOR)
-    end
-    AssignCommand -> Model : assignVendorToEvent(vendor, event)
-else invalid view
-    AssignCommand -> LogicManager : CommandResult(MESSAGE_ASSIGN_FAILURE_INVALID_VIEW)
+alt Viewing vendor details
+    AssignCommand -> AssignCommand : assignVendorToEvent(m)
+else Viewing event details
+    AssignCommand -> AssignCommand : assignEventToVendor(m)
+else else
+    <-- AssignCommand : CommandException()
 end
 
 create CommandResult
@@ -76,9 +34,7 @@ activate CommandResult
 CommandResult --> AssignCommand
 deactivate CommandResult
 
-AssignCommand --> LogicManager : r
+<-- AssignCommand : r
 deactivate AssignCommand
 
-[<--LogicManager
-deactivate LogicManager
 @enduml
