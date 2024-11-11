@@ -79,7 +79,8 @@
         "association-note": "Association note",
         "fine-grained-find-command": "Fine-grained find command",
         "bulk-unassign": "Bulk unassign",
-        "enhanced-support-for-foreign-phone-numbers": "Enhanced Support for Foreign Phone Numbers"
+        "enhanced-support-for-foreign-phone-numbers": "Enhanced Support for Foreign Phone Numbers",
+        "case-sensitivity-for-commands": "Case Sensitivity for Commands"
       },
       "headingKeywords": {}
     },
